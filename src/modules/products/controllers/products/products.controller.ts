@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Query } from '@nestjs/common';
+import { Controller, Get, HttpCode, ParseIntPipe, Query } from '@nestjs/common';
 
 import { ListAndCountService } from '../../services/list-and-count/list-and-count.service';
 import {
@@ -7,7 +7,7 @@ import {
 } from './dto/productsController.dto';
 
 @Controller('products')
-export class AuthController {
+export class ProductsController {
   constructor(private readonly listAndCountService: ListAndCountService) {}
 
   @Get('/list')

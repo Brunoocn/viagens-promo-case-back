@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: $MYSQL_NAME
+      MYSQL_ROOT_USER: $MYSQL_USER
+      MYSQL_ROOT_PASSWORD: $MYSQL_PASSWORD
+    ports:
+      - $DATABASE_PORT:$DATABASE_PORT
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 15s

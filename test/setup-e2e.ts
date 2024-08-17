@@ -1,33 +1,36 @@
-import { PrismaClient } from '@prisma/client'
-import { randomUUID } from 'node:crypto'
-import 'dotenv/config'
-import { execSync } from 'node:child_process'
+import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'node:crypto';
+import 'dotenv/config';
+import { execSync } from 'node:child_process';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-const schemaId = randomUUID()
+const databaseId = randomUUID();
+const url = new URL(process.env.DATABASE_URL);
 
-function generateUniqueDatabaseUrl(schemaId: string) {
+function generateUniqueDatabaseUrl(databaseId: string) {
   if (!process.env.DATABASE_URL) {
-    throw new Error('Please provide a DATABASE_URL environment variable.')
+    throw new Error('Please provide a DATABASE_URL environment variable.');
   }
 
-  const url = new URL(process.env.DATABASE_URL)
+  const newDatabaseUrl = url.toString().replace(/\/[^\/]+$/, `/${databaseId}`);
 
-  url.searchParams.set('schema', schemaId)
-
-  return url.toString()
+  return newDatabaseUrl;
 }
 
 beforeAll(async () => {
-  const databaseUrl = generateUniqueDatabaseUrl(schemaId)
+  const databaseUrl = generateUniqueDatabaseUrl(databaseId);
 
-  process.env.DATABASE_URL = databaseUrl
+  process.env.DATABASE_URL = databaseUrl;
 
-  execSync('yarn prisma migrate deploy')
-})
+  await prisma.$executeRawUnsafe(`CREATE DATABASE \`${databaseId}\`;`);
+
+  execSync('yarn prisma migrate deploy');
+});
 
 afterAll(async () => {
-  await prisma.$executeRawUnsafe(`DROP SCHEMA IF EXISTS "${schemaId}" CASCADE`)
-  await prisma.$disconnect()
-})
+  // Dropar o banco de dados após os testes
+  await prisma.$executeRawUnsafe(`DROP DATABASE \`${databaseId}\`;`);
+
+  await prisma.$disconnect();
+});

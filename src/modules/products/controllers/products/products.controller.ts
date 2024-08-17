@@ -1,10 +1,7 @@
 import { Controller, Get, HttpCode, ParseIntPipe, Query } from '@nestjs/common';
 
 import { ListAndCountService } from '../../services/list-and-count/list-and-count.service';
-import {
-  IGetProductsControllerDTO,
-  IGetProductsResponseDTO,
-} from './dto/productsController.dto';
+import { IGetProductsResponseDTO } from './dto/productsController.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -13,7 +10,8 @@ export class ProductsController {
   @Get('/list')
   @HttpCode(200)
   async loginUser(
-    @Query() { page, pageSize }: IGetProductsControllerDTO,
+    @Query('page', new ParseIntPipe()) page?: number,
+    @Query('pageSize', new ParseIntPipe()) pageSize?: number,
   ): Promise<IGetProductsResponseDTO> {
     return this.listAndCountService.execute({ page, pageSize });
   }

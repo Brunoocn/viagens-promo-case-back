@@ -14,7 +14,6 @@ export class ProductRepository implements IProductRepository {
     data: IListAndCountProductsDTO,
   ): Promise<IListAndCountProductsResponseDTO> {
     const { limit, offset } = data;
-
     const products = await this.prismaService.product.findMany({
       take: limit,
       skip: offset,

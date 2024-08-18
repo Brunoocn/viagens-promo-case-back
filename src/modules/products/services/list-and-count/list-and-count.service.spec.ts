@@ -4,7 +4,7 @@ import { InMemoryProductRepository } from 'test/repositories/in-memory-product-r
 import { ListAndCountService } from './list-and-count.service';
 import { REPOSITORIES_NAME } from 'src/utils/repository_enum';
 
-describe('RegisterService', () => {
+describe('ListAndCountService', () => {
   let inMemoryProductRepository: InMemoryProductRepository;
   let listAndCountService: ListAndCountService;
 

@@ -1,8 +1,8 @@
-export interface IProduct {
+export type Product = {
   id: string;
   name: string;
   price: number;
-}
+};
 
 export interface IListAndCountProductsDTO {
   limit: number;
@@ -10,6 +10,6 @@ export interface IListAndCountProductsDTO {
 }
 
 export interface IListAndCountProductsResponseDTO {
-  products: IProduct[];
+  products: Product[];
   count: number;
 }

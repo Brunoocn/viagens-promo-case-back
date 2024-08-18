@@ -1,7 +1,7 @@
-import { IProduct } from 'src/modules/products/database/abstract/productRepository.dto';
+import { Product } from 'src/modules/products/database/abstract/productRepository.dto';
 
 export class IGetProductsResponseDTO {
-  list: IProduct[];
+  list: Product[];
   paging: {
     total: number;
     page: number;

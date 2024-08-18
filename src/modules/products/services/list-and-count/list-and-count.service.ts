@@ -10,11 +10,11 @@ import { getTotalPages } from 'src/utils/get-total-pages';
 export class ListAndCountService {
   constructor(
     @Inject(REPOSITORIES_NAME.product_repository)
-    private readonly cryptoCompareProvider: IProductRepository,
+    private readonly productRepository: IProductRepository,
   ) {}
 
   async execute({ page = 1, pageSize = 100 }: IListAndCountProductsDTO) {
-    const { products, count } = await this.cryptoCompareProvider.listAndCount({
+    const { products, count } = await this.productRepository.listAndCount({
       limit: pageSize,
       offset: getOffset({ page, pageSize }),
     });

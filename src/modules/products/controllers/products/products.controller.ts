@@ -9,7 +9,7 @@ export class ProductsController {
 
   @Get('/list')
   @HttpCode(200)
-  async loginUser(
+  async listAndCount(
     @Query('page', new ParseIntPipe()) page?: number,
     @Query('pageSize', new ParseIntPipe()) pageSize?: number,
   ): Promise<IGetProductsResponseDTO> {
